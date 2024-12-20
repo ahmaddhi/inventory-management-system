@@ -18,7 +18,7 @@ namespace backend.Services
             return _supplierRepository.GetAll();
         }
 
-        public Supplier GetSupplierById(int id)
+        public Supplier? GetSupplierById(int id)
         {
             return _supplierRepository.GetById(id);
         }
@@ -28,9 +28,18 @@ namespace backend.Services
             return _supplierRepository.Add(supplier);
         }
 
-        public bool UpdateSupplier(Supplier supplier)
+        public bool UpdateSupplier(int id, Supplier updatedSupplier)
         {
-            return _supplierRepository.Update(supplier);
+            var existingSupplier = _supplierRepository.GetById(id);
+            if (existingSupplier == null)
+                return false;
+
+            existingSupplier.Name = updatedSupplier.Name;
+            existingSupplier.Email = updatedSupplier.Email;
+            existingSupplier.Phone = updatedSupplier.Phone;
+            existingSupplier.Address = updatedSupplier.Address;
+
+            return _supplierRepository.Update(existingSupplier);
         }
 
         public bool DeleteSupplier(int id)

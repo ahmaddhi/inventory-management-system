@@ -19,8 +19,8 @@ namespace backend.Data
         {
             return new List<Supplier>
             {
-                new Supplier { Id = 1, Name = "ABC Suppliers", ContactInfo = "abc@suppliers.com" },
-                new Supplier { Id = 2, Name = "XYZ Traders", ContactInfo = "xyz@traders.com" }
+                new Supplier { Id = 1, Name = "ABC Suppliers", Email = "abc@suppliers.com", Phone = "018-5672845", Address= "Kuala Lumpur, Malaysia" },
+                new Supplier { Id = 2, Name = "XYZ Traders", Email = "xyz@traders.com",Phone = "011-2536412", Address="Cyberjaya, Malaysia" },
             };
         }
 
@@ -35,7 +35,8 @@ namespace backend.Data
                     Price = 1200,
                     StockQuantity = 10,
                     SupplierId = 1,
-                    CategoryId = 1
+                    CategoryId = 1,
+                    ReorderPoint = 3
                 },
                 new Product
                 {
@@ -44,7 +45,8 @@ namespace backend.Data
                     Price = 20,
                     StockQuantity = 50,
                     SupplierId = 2,
-                    CategoryId = 2
+                    CategoryId = 2,
+                    ReorderPoint = 5
                 }
             };
         }

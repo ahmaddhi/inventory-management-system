@@ -20,9 +20,12 @@ namespace backend
 
         public void ConfigureServices(IServiceCollection services)
         {
-            // Register DbContext with SQL Server
+            // Register DbContext with MySQL Server
             services.AddDbContext<InventoryDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                options.UseMySql(
+                    Configuration.GetConnectionString("DefaultConnection"),
+                    new MySqlServerVersion(new Version(8, 0, 2)) 
+                ));
 
             // Register repositories
             services.AddScoped<IOrderRepository, OrderRepository>();

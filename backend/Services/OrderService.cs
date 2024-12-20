@@ -18,9 +18,9 @@ namespace backend.Services
             return _orderRepository.GetAll();
         }
 
-        public Order GetOrderById(int id)
+        public Order? GetOrderById(int id)
         {
-            return _orderRepository.GetById(id);
+            return _orderRepository.GetById(id);// Pass through the nullable result
         }
 
         public Order CreateOrder(Order order)

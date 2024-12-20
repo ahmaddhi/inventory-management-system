@@ -34,7 +34,8 @@ namespace backend.Controllers
         [HttpPost]
         public ActionResult<Order> CreateOrder([FromBody] Order newOrder)
         {
-            var createdOrder = _orderService.AddOrder(newOrder);
+            // Use CreateOrder instead of AddOrder
+            var createdOrder = _orderService.CreateOrder(newOrder);
             return CreatedAtAction(nameof(GetOrder), new { id = createdOrder.Id }, createdOrder);
         }
 

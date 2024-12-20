@@ -6,7 +6,7 @@ namespace backend.Repositories
     public interface ISupplierRepository
     {
         IEnumerable<Supplier> GetAll();
-        Supplier GetById(int id);
+        Supplier? GetById(int id); // Allow nullable
         Supplier Add(Supplier supplier);
         bool Update(Supplier supplier);
         bool Delete(int id);

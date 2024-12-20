@@ -18,7 +18,7 @@ namespace backend.Services
             return _productRepository.GetAll();
         }
 
-        public Product GetProductById(int id)
+        public Product? GetProductById(int id)
         {
             return _productRepository.GetById(id);
         }
@@ -28,9 +28,20 @@ namespace backend.Services
             return _productRepository.Add(product);
         }
 
-        public bool UpdateProduct(Product product)
+        public bool UpdateProduct(int id, Product updatedProduct)
         {
-            return _productRepository.Update(product);
+            var existingProduct = _productRepository.GetById(id);
+            if (existingProduct == null)
+                return false;
+
+            existingProduct.Name = updatedProduct.Name;
+            existingProduct.Price = updatedProduct.Price;
+            existingProduct.StockQuantity = updatedProduct.StockQuantity;
+            existingProduct.SupplierId = updatedProduct.SupplierId;
+            existingProduct.CategoryId = updatedProduct.CategoryId;
+            existingProduct.ReorderPoint = updatedProduct.ReorderPoint;
+
+            return _productRepository.Update(existingProduct);
         }
 
         public bool DeleteProduct(int id)

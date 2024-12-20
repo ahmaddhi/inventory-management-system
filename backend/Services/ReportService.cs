@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using backend.Models;
 using backend.Repositories;
 
@@ -25,6 +26,26 @@ namespace backend.Services
             {
                 TotalProducts = totalProducts,
                 TotalStock = totalStock
+            };
+        }
+
+        public object GenerateSalesReport()
+        {
+            var orders = _orderRepository.GetAll();
+
+            var totalOrders = orders.Count();
+            var totalQuantitySold = orders.Sum(o => o.Quantity);
+            var totalRevenue = orders.Sum(o =>
+            {
+                var product = _productRepository.GetById(o.ProductId);
+                return product != null ? product.Price * o.Quantity : 0;
+            });
+
+            return new
+            {
+                TotalOrders = totalOrders,
+                TotalQuantitySold = totalQuantitySold,
+                TotalRevenue = totalRevenue
             };
         }
     }

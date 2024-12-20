@@ -16,27 +16,28 @@ namespace backend.Repositories
 
         public IEnumerable<Order> GetAll()
         {
-            return _context.Orders.ToList();
+            return _context.Orders?.ToList() ?? new List<Order>();
         }
 
-        public Order GetById(int id)
+        public Order? GetById(int id)
         {
-            return _context.Orders.Find(id);
+            // Allow null return if the order is not found
+            return _context.Orders?.Find(id);
         }
 
         public Order Add(Order order)
         {
-            _context.Orders.Add(order);
+            _context.Orders?.Add(order);
             _context.SaveChanges();
             return order;
         }
 
         public bool Delete(int id)
         {
-            var order = _context.Orders.Find(id);
+            var order = _context.Orders?.Find(id);
             if (order == null) return false;
 
-            _context.Orders.Remove(order);
+            _context.Orders?.Remove(order);
             _context.SaveChanges();
             return true;
         }
