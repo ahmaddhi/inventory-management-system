@@ -31,15 +31,20 @@ namespace backend
             services.AddScoped<IOrderRepository, OrderRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<ISupplierRepository, SupplierRepository>();
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
 
             // Register services
             services.AddScoped<OrderService>();
             services.AddScoped<ProductService>();
             services.AddScoped<SupplierService>();
-            services.AddScoped<ReportService>();
+            services.AddScoped<CategoryService>();
 
             // Add controllers
-            services.AddControllers();
+            services.AddControllers()
+                .AddJsonOptions(options =>
+                {
+                    options.JsonSerializerOptions.PropertyNamingPolicy = null;
+                });
 
             // Enable CORS (adjust as needed for your frontend URL)
             services.AddCors(options =>

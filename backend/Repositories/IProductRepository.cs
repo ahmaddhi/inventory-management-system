@@ -11,5 +11,4 @@ namespace backend.Repositories
         bool Update(Product product);
         bool Delete(int id);
     }
-
 }

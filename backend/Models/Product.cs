@@ -9,8 +9,7 @@ namespace backend.Models
         public int SupplierId { get; set; }
         public int CategoryId { get; set; }
         public int ReorderPoint { get; set; }
-        public Supplier? Supplier { get; set; }
-        public Category? Category { get; set; }
+        
     }
 
 }

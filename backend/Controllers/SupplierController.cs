@@ -19,7 +19,8 @@ namespace backend.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<Supplier>> GetSuppliers()
         {
-            return Ok(_supplierService.GetAllSuppliers());
+            var suppliers = _supplierService.GetAllSuppliers();
+            return Ok(suppliers);
         }
 
         [HttpGet("{id}")]
@@ -28,6 +29,7 @@ namespace backend.Controllers
             var supplier = _supplierService.GetSupplierById(id);
             if (supplier == null)
                 return NotFound();
+
             return Ok(supplier);
         }
 
@@ -43,15 +45,24 @@ namespace backend.Controllers
         {
             if (!_supplierService.UpdateSupplier(id, updatedSupplier))
                 return NotFound();
+
             return NoContent();
         }
 
         [HttpDelete("{id}")]
         public IActionResult DeleteSupplier(int id)
         {
-            if (!_supplierService.DeleteSupplier(id))
-                return NotFound();
-            return NoContent();
+            try
+            {
+                if (!_supplierService.DeleteSupplier(id))
+                    return NotFound();
+
+                return NoContent();
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
         }
     }
 }

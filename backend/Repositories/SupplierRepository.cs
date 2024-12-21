@@ -1,7 +1,9 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using backend.Data;
 using backend.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace backend.Repositories
 {
@@ -21,7 +23,7 @@ namespace backend.Repositories
 
         public Supplier? GetById(int id)
         {
-            return _context.Suppliers?.Find(id);
+            return _context.Suppliers?.FirstOrDefault(s => s.Id == id);
         }
 
         public Supplier Add(Supplier supplier)
@@ -48,15 +50,9 @@ namespace backend.Repositories
 
         public bool Delete(int id)
         {
-            var supplier = _context.Suppliers?.Find(id);
+            var supplier = _context.Suppliers?.FirstOrDefault(s => s.Id == id);
             if (supplier == null)
                 return false;
-
-            // Optionally load related data if necessary
-            _context.Entry(supplier).Collection(s => s.Products).Load();
-
-            if (supplier.Products != null && supplier.Products.Any())
-                throw new InvalidOperationException("Cannot delete a supplier with associated products.");
 
             _context.Suppliers?.Remove(supplier);
             _context.SaveChanges();

@@ -19,7 +19,8 @@ namespace backend.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<Product>> GetProducts()
         {
-            return Ok(_productService.GetAllProducts());
+            var products = _productService.GetAllProducts();
+            return Ok(products);
         }
 
         [HttpGet("{id}")]

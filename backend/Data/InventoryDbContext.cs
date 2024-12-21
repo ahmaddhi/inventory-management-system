@@ -9,10 +9,10 @@ namespace backend.Data
         {
         }
 
-        public DbSet<Product>? Products { get; set; }
-        public DbSet<Order>? Orders { get; set; }
-        public DbSet<Supplier>? Suppliers { get; set; }
-        public DbSet<Category>? Categories { get; set; }
+        public DbSet<Product> Products { get; set; } = null!;
+        public DbSet<Order> Orders { get; set; } = null!;
+        public DbSet<Supplier> Suppliers { get; set; } = null!;
+        public DbSet<Category> Categories { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -20,16 +20,12 @@ namespace backend.Data
 
             // Define relationships
             modelBuilder.Entity<Product>()
-                .HasOne(p => p.Supplier)
-                .WithMany(s => s.Products)
-                .HasForeignKey(p => p.SupplierId)
-                .OnDelete(DeleteBehavior.Restrict); // Optional: Prevent cascading deletes
+                .HasIndex(p => p.SupplierId)
+                .IsUnique(false);   
 
             modelBuilder.Entity<Product>()
-                .HasOne(p => p.Category)
-                .WithMany(c => c.Products)
-                .HasForeignKey(p => p.CategoryId)
-                .OnDelete(DeleteBehavior.Restrict); // Optional: Prevent cascading deletes
+                .HasIndex(p => p.CategoryId)
+                .IsUnique(false);
 
             // Specify precision for decimal properties
             modelBuilder.Entity<Product>()
@@ -37,9 +33,16 @@ namespace backend.Data
                 .HasPrecision(18, 2);
 
             // Seed initial data
-            modelBuilder.Entity<Category>().HasData(SeedData.GetCategories());
-            modelBuilder.Entity<Supplier>().HasData(SeedData.GetSuppliers());
-            modelBuilder.Entity<Product>().HasData(SeedData.GetProducts());
+            try
+            {
+                modelBuilder.Entity<Category>().HasData(SeedData.GetCategories());
+                modelBuilder.Entity<Supplier>().HasData(SeedData.GetSuppliers());
+                modelBuilder.Entity<Product>().HasData(SeedData.GetProducts());
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error seeding data: {ex.Message}");
+            }
         }
     }
 }

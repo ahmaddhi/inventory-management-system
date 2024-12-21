@@ -60,11 +60,5 @@ namespace backend.Repositories
             return true;
         }
 
-        public IEnumerable<Product> GetAllWithSuppliers()
-        {
-            return _context.Products
-                ?.Include(p => p.Supplier)
-                ?.ToList() ?? new List<Product>();
-        }
     }
 }
